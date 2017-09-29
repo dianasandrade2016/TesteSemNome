@@ -10,7 +10,7 @@ using namespace std;
 
 struct init
 {	
-	string label;
+	string rotulo;
 	string trad;
 	string tipo;
 };
@@ -123,7 +123,7 @@ TIPO				: TK_TIPO_INT
 COUT		 		: TK_COUT '(' E ')'	
 					{
 
-						$$.trad = "\tcout << " + $3.label + " << endl;";
+						$$.trad = "\tcout << " + $3.rotulo+ " << endl;";
 
 					}
 					;
