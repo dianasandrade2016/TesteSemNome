@@ -7,12 +7,17 @@ ESPACO [ \t]
 DIGITO [0-9]
 LETRA [A-Za-z_]
 
-DELIM {ESPACO}+
-NUM {DIGITO}+
-REAL {NUM}+("."{NUM}+)?
+DELIM 		{ESPACO}+
+NUM 		{DIGITO}+
+TAMANHO 	{DIGITO}+
 
-CHAR \'({LETRA}|{NUM})\'
-ID {LETRA}({LETRA}|{NUM})*
+CARACTERE {LETRA}|{NUM}|{PONTUACAO}
+
+REAL 		{NUM}+("."{NUM}+)?
+CHAR 		\'({CARACTERE})\'
+ID 		{LETRA}({LETRA}|{NUM})*
+BOOLEAN 	"TRUE"|"FALSE"
+STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\"
 
 %%
 
@@ -29,9 +34,24 @@ ID {LETRA}({LETRA}|{NUM})*
 [(){}[\];,]	{ return *yytext; }
 
 [+\-*/]		{ return *yytext; }
+"<"		{ return TK_MENOR; }
+">"		{ return TK_MAIOR; }
+"<="		{ return TK_MENOR_IGUAL; }
+">="		{ return TK_MAIOR_IGUAL; }
+"=="		{ return TK_IGUAL; }
+"!="		{ return TK_DIFERENTE; }
+"||"		{ return TK_OU; }
+"&&"		{ return TK_E; }
 
-{NUM}		{ yylval.traducao = yytext; return TK_NUM; }
+"++"		{ return TK_INC; }
+"--"		{ return TK_DEC; }
+":"		{ return TK_DOIS_PONTOS; }
+
+{NUM}		{ yylval.traducao = yytext; return TK_INT; }
 {REAL}		{ yylval.traducao = yytext; return TK_FLOAT; }
+{BOOLEAN}	{ yylval.traducao = yytext; return TK_BOOLEAN; }
+{CHAR}		{ yylval.traducao = yytext; return TK_CHAR; }
+{STRING}	{ yylval.traducao = yytext; return TK_STRING; }
 {ID}		{ yylval.label = yytext; return TK_ID; }
 
 .		{ *yytext; }
