@@ -17,15 +17,16 @@ int yylex(void);
 void yyerror(string);
 %}
 
-%token TK_NUM
-%token TK_MAIN TK_ID TK_TIPO_INT
+%token TK_NUM 
+%token TK_INT TK_FLOAT TK_BOOLEAN TK_CHAR TK_STRING
+%token TK_MAIN TK_ID TK_TIPO_INT TK_TIPO_FLOAT
 %token TK_FIM TK_ERROR
 
 %start S
 
 %right '='
 %left '+' '-'
-//%left '*' '/' '%'
+%left '*' '/' '%'
 
 %%
 
@@ -49,12 +50,14 @@ COMANDO 	: E ';'
 		;
 
 E : E '*' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b * c;\n";}
-			| E '-' E {$$.traducao = $1.traducao + $3.traducao + "\td = x - z;\n";}
-			| E '+' E {$$.traducao = $1.traducao + $3.traducao + "\te = l + j;\n";}
-			| E '/' E {$$.traducao = $1.traducao + $3.traducao + "\tf = y / k;\n";}
+			| E '-' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b - c;\n";}
+			| E '+' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b + c;\n";}
+			| E '/' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b / c;\n";}
 
 
-			| TK_NUM {$$.traducao = "\ta = " + $1.traducao + ";\n";}
+			| TK_FLOAT {$$.traducao = "\ta = " + $1.traducao + ";\n";}
+		
+
 			| TK_ID
 			;
 
