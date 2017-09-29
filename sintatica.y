@@ -2,29 +2,33 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <map>
 
-#define YYSTYPE atributos
+#define YYSTYPE init
 
 using namespace std;
 
-struct atributos
-{
+struct init
+{	
 	string label;
 	string trad;
-	string vlr;
+	string tipo;
 };
+
 
 //info:
 //int hashCode(KeyType key);
 //HashMap<KeyType, ValueType> map;
 
-//typedef struct atributos Atributos;
-//typedef map<string, Atributos> STRINGMAP;
-//STRINGMAP labelsMap;
+typedef struct init atributos;
+typedef map<string, atributos> cadeiaMAPA;
+cadeiaMAPA RotulosMapa;
 
 
 int yylex(void);
 void yyerror(string);
+int tipoToIndice(string tipo);
+
 %}
 
 %token TK_INT TK_FLOAT TK_BOOLEAN TK_CHAR TK_STRING
@@ -128,13 +132,25 @@ COUT		 		: TK_COUT '(' E ')'
 
 #include "lex.yy.c"
 
-int yyparse();
-
 int main( int argc, char* argv[] )
 {
 	yyparse();
 
 	return 0;
+}
+
+int tipoToIndice(string tipo)
+{
+	if(tipo == "int") 
+		return 1;
+	else if(tipo == "float") 
+		return 2;
+	else if(tipo == "string") 
+		return 3;
+	else if(tipo == "char") 
+		return 4;
+	else if(tipo == "boolean") 
+		return 5;
 }
 
 void yyerror( string MSG )
