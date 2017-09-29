@@ -6,6 +6,7 @@
 ESPACO [ \t]
 DIGITO [0-9]
 LETRA [A-Za-z_]
+PONTUACAO [!?.,;:]
 
 DELIM 		{ESPACO}+
 NUM 		{DIGITO}+
@@ -47,12 +48,15 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 "--"		{ return TK_DEC; }
 ":"		{ return TK_DOIS_PONTOS; }
 
-{NUM}		{ yylval.traducao = yytext; return TK_INT; }
-{REAL}		{ yylval.traducao = yytext; return TK_FLOAT; }
-{BOOLEAN}	{ yylval.traducao = yytext; return TK_BOOLEAN; }
-{CHAR}		{ yylval.traducao = yytext; return TK_CHAR; }
-{STRING}	{ yylval.traducao = yytext; return TK_STRING; }
+{NUM}		{ yylval.trad = yytext; return TK_INT; }
+{REAL}		{ yylval.trad = yytext; return TK_FLOAT; }
+{BOOLEAN}	{ yylval.trad = yytext; return TK_BOOLEAN; }
+{CHAR}		{ yylval.trad = yytext; return TK_CHAR; }
+{STRING}	{ yylval.trad = yytext; return TK_STRING; }
 {ID}		{ yylval.label = yytext; return TK_ID; }
+
+
+
 
 .		{ *yytext; }
 
