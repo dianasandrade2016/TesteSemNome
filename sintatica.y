@@ -17,7 +17,6 @@ int yylex(void);
 void yyerror(string);
 %}
 
-%token TK_NUM 
 %token TK_INT TK_FLOAT TK_BOOLEAN TK_CHAR TK_STRING
 %token TK_MAIN TK_ID TK_TIPO_INT TK_TIPO_FLOAT
 %token TK_FIM TK_ERROR
