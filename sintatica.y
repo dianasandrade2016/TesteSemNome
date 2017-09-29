@@ -25,6 +25,9 @@ typedef map<string, atributos> cadeiaMAPA;
 cadeiaMAPA RotulosMapa;
 
 
+//list<cadeiaMAPA*> pilha;
+
+
 int yylex(void);
 void yyerror(string);
 int tipoToIndice(string tipo);
@@ -59,7 +62,7 @@ BEGIN			: MAIN
 
 MAIN			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
 			{
-				cout << "/*Compilador FOCA*/\n" << "#include <iostream>\n#include<string.h>\n#include<stdio.h>\nint main(void)\n{\n" << $5.trad << "\treturn 0;\n}" << endl; 
+				cout << $5.trad << "\tteste\n" << endl; 
 		}
 			;
 
@@ -76,56 +79,24 @@ COMANDOS	: COMANDO COMANDOS
 COMANDO 	: E ';'
 		;
 
-E : E '*' E {$$.trad = $1.trad + $3.trad + "\ta = b * c;\n";}
+
+
+E 		: E '*' E {$$.trad = $1.trad + $3.trad + "\ta = b * c;\n";}
 			| E '-' E {$$.trad = $1.trad + $3.trad + "\ta = b - c;\n";}
 			| E '+' E {$$.trad = $1.trad + $3.trad + "\ta = b + c;\n";}
 			| E '/' E {$$.trad = $1.trad + $3.trad + "\ta = b / c;\n";}
-
-
 			| TK_FLOAT {$$.trad = "\ta = " + $1.trad + ";\n";}
-		
-
-			| TK_ID
 			;
 
-TIPO				: TK_TIPO_INT
-					{
-						$$.label = "int";
-						$$.tipo = "int";
-					}
-					|	TK_TIPO_FLOAT
-					{
-						$$.label = "float";
-						$$.tipo = "float";
-					}
-					|	TK_TIPO_BOOLEAN
-					{
-						$$.label = "boolean";
-						$$.tipo = "boolean";
-					}
-					|	TK_TIPO_STRING
-					{
-						$$.label = "string";
-						$$.tipo = "string";
-					}
-					|	TK_TIPO_CHAR
-					{
-						$$.label = "char";
-						$$.tipo = "char";
-					}
-					|	TK_TIPO_VOID
-					{
-						$$.label = "void";
-						$$.tipo = "void";
-					}
+TIPO		: TK_TIPO_INT		{ $$.rotulo = "int"; $$.tipo = "int";}
+		| TK_TIPO_FLOAT		{$$.rotulo = "float"; $$.tipo = "float";}
+		| TK_TIPO_BOOLEAN	{$$.rotulo = "boolean"; $$.tipo = "boolean";}
+		| TK_TIPO_STRING	{$$.rotulo = "string"; $$.tipo = "string";}
+		| TK_TIPO_CHAR		{$$.rotulo = "char"; $$.tipo = "char";}
+		| TK_TIPO_VOID		{$$.rotulo = "void"; $$.tipo = "void";}
 					; 
 
-COUT		 		: TK_COUT '(' E ')'	
-					{
-
-						$$.trad = "\tcout << " + $3.rotulo+ " << endl;";
-
-					}
+COUT		: TK_COUT '(' E ')'	{$$.trad = "\tcout << " + $3.rotulo + " << endl;";}
 					;
 
 %%
