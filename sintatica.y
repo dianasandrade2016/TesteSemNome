@@ -11,7 +11,17 @@ struct atributos
 {
 	string label;
 	string traducao;
+	string valor;
 };
+
+//info:
+//int hashCode(KeyType key);
+//HashMap<KeyType, ValueType> map;
+
+//typedef struct atributos Atributos;
+//typedef map<string, Atributos> STRINGMAP;
+//STRINGMAP labelsMap;
+
 
 int yylex(void);
 void yyerror(string);
