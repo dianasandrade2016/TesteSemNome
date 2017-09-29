@@ -53,7 +53,7 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 {BOOLEAN}	{ yylval.trad = yytext; return TK_BOOLEAN; }
 {CHAR}		{ yylval.trad = yytext; return TK_CHAR; }
 {STRING}	{ yylval.trad = yytext; return TK_STRING; }
-{ID}		{ yylval.label = yytext; return TK_ID; }
+{ID}		{ yylval.rotulo = yytext; return TK_ID; }
 
 
 
