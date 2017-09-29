@@ -1,0 +1,80 @@
+﻿%{
+#include <string>
+%}
+
+
+ESPACO [ \t]
+DIGITO [0-9]
+LETRA [A-Za-z_]
+
+
+DELIM {ESPACO}+
+NUM {DIGITO}+
+REAL {NUM}+("."{NUM}+)?
+CHAR \'({LETRA}|{NUM})\'
+ID {LETRA}({LETRA}|{NUM})*
+
+
+PONTUACAO                 [!?.,;:]
+CARACTERE {LETRA} | {NUMERO} | {PONTUACAO}
+BOOLEAN        “TRUE”|“FALSE
+INTEIRO        {NUMERO}
+CHAR                \’({CARACTERE})\’ 
+STRING        “\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\"
+
+
+
+
+
+
+
+
+
+
+“+”|“-”|“*”|“/”                            {return TK_OPERADOR;}
+“++”                                       {return TK_INCREMENTO;}
+“--”                                       {return TK_DECREMENTO;}
+“{“                                        {return TK_OPENCHAVE;}
+“}”                                        {return TK_CLOSECHAVE;}
+“(“                                        {return TK_OPENPARENTESES;}
+“)”                                        {return TK_CLOSEPARENTESES;)
+“]”                                        (return TK_OPENCONCHETES;)
+“[“                                        (return TK_CLOSECONCHETES;)
+“;”                                        (return TK_PONTOVIRGULA)
+“#”                                        (return TK_NUMERAL)
+"<"                                        {return TK_MENOR; }
+">"                                        {return TK_MAIOR; }
+“,”                                        {return TK_VIRGULA; }        
+"<="                                        { return TK_MENOR_IGUAL; }
+">="                                        { return TK_MAIOR_IGUAL; }
+"=="                                        { return TK_IGUAL; }
+"!="                                        { return TK_DIFERENTE; }
+"||"                                        { return TK_OU; }
+"&&"                                        { return TK_E; }
+“:”                                        { return TK_DOIS_PONTOS; }
+“int”                                        {return TK_TIPO_INT} *******Não entendi ainda
+“float”                                        {return TK_TIPO_FLOAT}        
+"boolean"                                {return TK_TIPO_BOOLEAN; }
+"string"                                        {return TK_TIPO_STRING; }
+"char"                                        {return TK_TIPO_STRING; }
+"while"                                        {return TK_TIPO_WHILE; }
+"do"                                        {return TK_TIPO_DO; }
+"if"                                        {return TK_TIPO_IF; }
+"else"                                        {return TK_TIPO_ELSE; }
+“switch”                                        {return TK_TIPO_SWITCH}
+"\n"                                        {}
+
+
+{DELIM}                                 {}
+
+
+
+
+
+
+{DIGITO}                                {return TK_DIGITO}
+{LETRA}                                        {return TK_LETRA}
+{NUMERO}                                { yylval.traducao = yytext; return TK_INT; } ???? não entendi ainda
+
+
+%%
