@@ -10,8 +10,8 @@ using namespace std;
 struct atributos
 {
 	string label;
-	string traducao;
-	string valor;
+	string trad;
+	string vlr;
 };
 
 //info:
@@ -32,29 +32,36 @@ void yyerror(string);
 %token TK_FIM TK_ERROR
 %token TK_MENOR TK_MAIOR TK_MENOR_IGUAL TK_MAIOR_IGUAL TK_IGUAL TK_DIFERENTE TK_OU TK_E
 %token TK_INC TK_DEC 
+%token TK_COUT
 %token TK_DOIS_PONTOS
 
 
-%start MAIN
+%start BEGIN
 
 %right '='
 %left '+' '-'
 %left '*' '/' '%'
+%left TK_INC TK_DEC
+%left TK_OU
+%left TK_E
+%left TK_IGUAL TK_DIFERENTE
+%left TK_MENOR TK_MAIOR TK_MENOR_IGUAL TK_MAIOR_IGUAL
+%left '(' ')'
 
 %%
 
+BEGIN			: MAIN
+
+
 MAIN			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
 			{
-				cout << "/*Compilador FOCA*/\n" << "#include <iostream>\n#include<string.h>\n#include<stdio.h>\nint main(void)\n{\n" << $5.traducao << "\treturn 0;\n}" << endl; 
+				cout << "/*Compilador FOCA*/\n" << "#include <iostream>\n#include<string.h>\n#include<stdio.h>\nint main(void)\n{\n" << $5.trad << "\treturn 0;\n}" << endl; 
 		}
 			;
 
-			
-
-
 BLOCO		: '{' COMANDOS '}'
 			{
-				$$.traducao = $2.traducao;
+				$$.trad = $2.trad;
 			}
 			;
 
@@ -65,13 +72,13 @@ COMANDOS	: COMANDO COMANDOS
 COMANDO 	: E ';'
 		;
 
-E : E '*' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b * c;\n";}
-			| E '-' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b - c;\n";}
-			| E '+' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b + c;\n";}
-			| E '/' E {$$.traducao = $1.traducao + $3.traducao + "\ta = b / c;\n";}
+E : E '*' E {$$.trad = $1.trad + $3.trad + "\ta = b * c;\n";}
+			| E '-' E {$$.trad = $1.trad + $3.trad + "\ta = b - c;\n";}
+			| E '+' E {$$.trad = $1.trad + $3.trad + "\ta = b + c;\n";}
+			| E '/' E {$$.trad = $1.trad + $3.trad + "\ta = b / c;\n";}
 
 
-			| TK_FLOAT {$$.traducao = "\ta = " + $1.traducao + ";\n";}
+			| TK_FLOAT {$$.trad = "\ta = " + $1.trad + ";\n";}
 		
 
 			| TK_ID
@@ -108,6 +115,14 @@ TIPO				: TK_TIPO_INT
 						$$.tipo = "void";
 					}
 					; 
+
+COUT		 		: TK_COUT '(' E ')'	
+					{
+
+						$$.trad = "\tcout << " + $3.label + " << endl;";
+
+					}
+					;
 
 %%
 
