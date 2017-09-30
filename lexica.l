@@ -23,14 +23,28 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 %%
 
 "\n"		{}
-
 {DELIM} 	{}
+"return"
+"break"		{return TK_BREAK;}
+"switch"	{return TK_SWITCH;}
+"case"		{return TK_CASE;}
+"do"		{return TK_DO;}
+"while"		{return TK_WHILE;}
+"for"		{return TK_FOR;}
+"if"		{return TK_IF;}
+"else"		{return TK_ELSE;}
+"scanf"		{return TK_SCANF;}
+"define"	{return TK_DEFINE;}
+"exit"		{return TK_EXIT;}
+"void"		{return TK VOId;}
+"char"		{return TK CHAR;}
 
 "main"		{return TK_MAIN;}
 
 "int"		{return TK_TIPO_INT;}
 
 "float"		{ return TK_TIPO_FLOAT; }
+
 
 [(){}[\];,]	{ return *yytext; }
 
@@ -47,6 +61,10 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 "++"		{ return TK_INC; }
 "--"		{ return TK_DEC; }
 ":"		{ return TK_DOIS_PONTOS; }
+
+"=+"		{ return TK_ADD_ATRIBUICAO; }
+"=-"		{ return TK_DEL_ATRIBUICAO; }
+
 
 {NUM}		{ yylval.trad = yytext; return TK_INT; }
 {REAL}		{ yylval.trad = yytext; return TK_FLOAT; }
