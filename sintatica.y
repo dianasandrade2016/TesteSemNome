@@ -12,26 +12,10 @@ struct init
 {	
 	string rotulo;
 	string trad;
-	string tipo;
 };
-
-
-//info:
-//int hashCode(KeyType key);
-//HashMap<KeyType, ValueType> map;
-
-typedef struct init atributos;
-typedef map<string, atributos> cadeiaMAPA;
-cadeiaMAPA RotulosMapa;
-
-
-//list<cadeiaMAPA*> pilha;
-
 
 int yylex(void);
 void yyerror(string);
-int tipoToIndice(string tipo);
-
 %}
 
 %token TK_INT TK_FLOAT TK_BOOLEAN TK_CHAR TK_STRING
@@ -42,8 +26,7 @@ int tipoToIndice(string tipo);
 %token TK_COUT
 %token TK_DOIS_PONTOS
 
-
-%start BEGIN
+%start ALGORITMO
 
 %right '='
 %left '+' '-'
@@ -56,76 +39,31 @@ int tipoToIndice(string tipo);
 %left '(' ')'
 
 %%
-
-BEGIN			: MAIN
-
-
-MAIN			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
-			{
-				cout << $5.trad << "\tteste\n" << endl; 
-		}
-			;
-
-BLOCO		: '{' COMANDOS '}'
-			{
-				$$.trad = $2.trad;
-			}
-			;
-
-COMANDOS	: COMANDO COMANDOS
-			|
-			;
-
-COMANDO 	: E ';'
+ALGORITMO	:INICIO ALGORITMO {cout << "\t teste1 \n" << endl;}
+		|DECLARACAO_VARIAVEIS
+		|FUNCAO
+		|DECLARACAO_VARIAVEIS ALGORITMO
+		|FUNCAO ALGORITMO
 		;
 
+INICIO		:MAIN
+		:TK_TIPO_INT TK_MAIN '(' ')'
+		{cout <<"\t teste2 \n" << endl;}
+		;
+		
 
-
-E 		: E '*' E {$$.trad = $1.trad + $3.trad + "\ta = b * c;\n";}
-			| E '-' E {$$.trad = $1.trad + $3.trad + "\ta = b - c;\n";}
-			| E '+' E {$$.trad = $1.trad + $3.trad + "\ta = b + c;\n";}
-			| E '/' E {$$.trad = $1.trad + $3.trad + "\ta = b / c;\n";}
-			| TK_FLOAT {$$.trad = "\ta = " + $1.trad + ";\n";}
-			;
-
-TIPO		: TK_TIPO_INT		{ $$.rotulo = "int"; $$.tipo = "int";}
-		| TK_TIPO_FLOAT		{$$.rotulo = "float"; $$.tipo = "float";}
-		| TK_TIPO_BOOLEAN	{$$.rotulo = "boolean"; $$.tipo = "boolean";}
-		| TK_TIPO_STRING	{$$.rotulo = "string"; $$.tipo = "string";}
-		| TK_TIPO_CHAR		{$$.rotulo = "char"; $$.tipo = "char";}
-		| TK_TIPO_VOID		{$$.rotulo = "void"; $$.tipo = "void";}
-					; 
-
-COUT		: TK_COUT '(' E ')'	{$$.trad = "\tcout << " + $3.rotulo + " << endl;";}
-					;
 
 %%
 
-#include "lex.yy.c"
 
+#include "lex.yy.c"
 int main( int argc, char* argv[] )
 {
 	yyparse();
-
 	return 0;
 }
-
-int tipoToIndice(string tipo)
-{
-	if(tipo == "int") 
-		return 1;
-	else if(tipo == "float") 
-		return 2;
-	else if(tipo == "string") 
-		return 3;
-	else if(tipo == "char") 
-		return 4;
-	else if(tipo == "boolean") 
-		return 5;
-}
-
 void yyerror( string MSG )
 {
 	cout << MSG << endl;
-	exit (0);
-}				
+	exit(0);
+}
