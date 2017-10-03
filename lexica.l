@@ -45,7 +45,6 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 
 "float"		{ return TK_TIPO_FLOAT; }
 
-
 [(){}[\];,]	{ return *yytext; }
 
 [+\-*/]		{ return *yytext; }
@@ -65,16 +64,12 @@ STRING 		\'{DELIM}*{CARACTERE}+({DELIM}*{CARACTERE}+)*{DELIM}*\'|\"{DELIM}*{CARA
 "=+"		{ return TK_ADD_ATRIBUICAO; }
 "=-"		{ return TK_DEL_ATRIBUICAO; }
 
-
-{NUM}		{ yylval.trad = yytext; return TK_INT; }
-{REAL}		{ yylval.trad = yytext; return TK_FLOAT; }
-{BOOLEAN}	{ yylval.trad = yytext; return TK_BOOLEAN; }
-{CHAR}		{ yylval.trad = yytext; return TK_CHAR; }
-{STRING}	{ yylval.trad = yytext; return TK_STRING; }
+{NUM}		{ yylval.tradicao = yytext; return TK_INT; }
+{REAL}		{ yylval.tradicao = yytext; return TK_FLOAT; }
+{BOOLEAN}	{ yylval.tradicao = yytext; return TK_BOOLEAN; }
+{CHAR}		{ yylval.tradicao = yytext; return TK_CHAR; }
+{STRING}	{ yylval.tradicao = yytext; return TK_STRING; }
 {ID}		{ yylval.rotulo = yytext; return TK_ID; }
-
-
-
 
 .		{ *yytext; }
 
