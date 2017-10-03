@@ -4,9 +4,7 @@
 #include <string>
 #include <sstream>
 #include <map>
-
 #define YYSTYPE init
-
 using namespace std;
 
 struct init
@@ -29,7 +27,6 @@ void yyerror(string);
 %token TK_ADD_ATRIBUICAO TK_DEL_ATRIBUICAO
 %token TK_OR TK_AND
 
-
 %start ALGORITMO
 
 %right '='
@@ -43,13 +40,12 @@ void yyerror(string);
 %left '(' ')'
 
 %%
-
 %%
 
 #include "lex.yy.c"
 int main( int argc, char* argv[] )
 {
-	yyparse();
+  	yyparse();
 	return 0;
 }
 void yyerror( string MSG )
